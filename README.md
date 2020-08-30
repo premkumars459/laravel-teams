@@ -1,61 +1,48 @@
-<p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
+The following routes have been set-up:
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+get         /                                    welcome page. you can find csrf token here
 
-## About Laravel
+get        /token                                get find csrf token 
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+post       /teams                                add teams  request : teamname                                          request: team name with key as name
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+get        /teams/{id}/tasks/todo                fetch tasks to do by team id 
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+get        /teams/{id}'                          show team with id 
 
-## Learning Laravel
+post       /teams/{id}/member                    add a member to team with id                                           request: membername, email with key                                                                                                                                 key: membername and email 
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+post      /teams/{id}/tasks                      add task to a team member in team with id;                             request: title , assigned to 
+                                                                                                                        key : title, assigned_to 
+                                                                                                                        
+get       /teams/{id}/tasks/{id2}                show task for a given team id and task id 
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+patch     /teams/{id}/tasks/{id2}                change status of a task;                                               request: title,status
+                                                                                                                        key: title, status
 
-## Laravel Sponsors
+get       /teams/{id}/tasks/                     shows all tasks of a team.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+get       /teams/{id}/taskstodo                  shows all tasks to do of a team.
 
-### Premium Partners
+get       /teams/{id}/member/{id2}/tasks/        shows all tasks to do by a team member.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[OP.GG](https://op.gg)**
+delete    /teams/{id}/member/{id2}               delete a team member if there are no tasks to do by the member.
 
-## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+When using post, patch or delete method remember to add csrf token in header of the request with key 'X-CSRF-TOKEN'.
 
-## Code of Conduct
+follow the request and key notations when using the methods where request are the required parameters and key are the keys to be used for those parameters.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+To run using local system uding local databse make sure you have php, laravel, and mysql  change the database connection details in .env file. Then run the following in your terminal: 
+1. php artisan migrate (to migrate all the required tables, this is one time)
+2. php artisan serve (laravel server will start and you can start using the aplication)
 
-## Security Vulnerabilities
+Running in docker: 
+In your terminal cd local project directory and run :
+1. docker-compose up -d. or docker-compose build && docker-compose up -d
+2. docker-compose exec blog_app bash
+3. php artisan migrate
+2. and 3. to be followed when using this for the first time. 
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
-## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
